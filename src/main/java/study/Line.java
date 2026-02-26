@@ -1,13 +1,13 @@
 package study;
 
 public class Line implements Coordinates {
-    private final Point[] points;
     private static final int FIRST = 0;
     private static final int SECOND = 1;
     private static final int X1 = 0;
     private static final int Y1 = 1;
     private static final int X2 = 2;
     private static final int Y2 = 3;
+    private final Point[] points;
 
     public Line() {
         this.points = new Point[2];
@@ -40,10 +40,10 @@ public class Line implements Coordinates {
 
     @Override
     public int getValue(String value) {
-        if(value.equals("firstX")) return points[FIRST].getX();
-        if(value.equals("firstY")) return points[FIRST].getY();
-        if(value.equals("secondX")) return points[SECOND].getX();
-        if(value.equals("secondY")) return points[SECOND].getY();
+        if (value.equals("firstX")) return points[FIRST].getX();
+        if (value.equals("firstY")) return points[FIRST].getY();
+        if (value.equals("secondX")) return points[SECOND].getX();
+        if (value.equals("secondY")) return points[SECOND].getY();
         return -1;
     }
 }

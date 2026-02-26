@@ -1,9 +1,9 @@
 package study;
 
 public class Coordinator {
-    private Coordinates coordinates;
     private static final int MAX = 24;
     private static final int THRESHOLD = 5;
+    private Coordinates coordinates;
 
     public Coordinator() {
     }
@@ -19,8 +19,8 @@ public class Coordinator {
     }
 
     public void make(int[] pair) {
-        if(pair[THRESHOLD] == 0) coordinates = new Line();
-        if(pair[THRESHOLD] != 0) coordinates = new Quadrangle();
+        if (pair[THRESHOLD] == 0) coordinates = new Line();
+        if (pair[THRESHOLD] != 0) coordinates = new Quadrangle();
         coordinates.makePoint(pair);
     }
 }

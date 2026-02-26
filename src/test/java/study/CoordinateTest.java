@@ -8,11 +8,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class CoordinateTest {
+    static final int MAX = 24;
     Quadrangle quadrangle;
     Line line;
     Coordinator coordinatorQ;
     Coordinator coordinatorL;
-    static final int MAX = 24;
 
     @BeforeEach
     public void setUp() {
@@ -27,7 +27,7 @@ public class CoordinateTest {
     public void distanceTest() {
         int expected = 5;
 
-        int[] pair = {3,3,6,7,0,0,0,0};
+        int[] pair = {3, 3, 6, 7, 0, 0, 0, 0};
         line.makePoint(pair);
         int result = (int) line.makeResult();
 
@@ -39,7 +39,7 @@ public class CoordinateTest {
     public void AreaTest() {
         int expected = 12;
 
-        int[] pair = {3,5,3,8,7,5,7,8};
+        int[] pair = {3, 5, 3, 8, 7, 5, 7, 8};
         quadrangle.makePoint(pair);
         int result = (int) quadrangle.makeResult();
 
@@ -49,7 +49,7 @@ public class CoordinateTest {
     @DisplayName("입력한 문자열이 정상적인 문자를 입력했을 때 제대로 분리되는지 확인한다.")
     @Test
     public void parseTest() {
-        int[] expected = {3,3,6,7,0,0,0,0};
+        int[] expected = {3, 3, 6, 7, 0, 0, 0, 0};
 
         int[] result = new int[8];
         String input = "(3,3)-(6,7)";
@@ -135,8 +135,8 @@ public class CoordinateTest {
     public void equalCoordinationTest() {
         boolean expected = true;
 
-        Point coordinate1 = new Point(3,4);
-        Point coordinate2 = new Point(3,4);
+        Point coordinate1 = new Point(3, 4);
+        Point coordinate2 = new Point(3, 4);
         boolean result = coordinate1.equals(coordinate2);
 
         assertThat(expected).isEqualTo(result);
@@ -147,7 +147,7 @@ public class CoordinateTest {
     public void duplicateCoordinateTest() {
         boolean expected = false;
 
-        int[] pair = {1,1,1,4,1,1,1,4};
+        int[] pair = {1, 1, 1, 4, 1, 1, 1, 4};
         boolean result = InputView.equalQuad(pair);
 
         assertThat(expected).isEqualTo(result);
@@ -158,7 +158,7 @@ public class CoordinateTest {
     public void validRectAngularTest() {
         boolean expected = false;
 
-        int[] pair = {1,1,2,2,3,3,1,4};
+        int[] pair = {1, 1, 2, 2, 3, 3, 1, 4};
         boolean result = InputView.checkCoordinateQuad(pair);
 
         assertThat(expected).isEqualTo(result);
@@ -167,7 +167,7 @@ public class CoordinateTest {
     @DisplayName("직선을 이루는 좌표 입력값을 넣었을 때 원하는 좌표 값이 제대로 반환되는지 확인한다.")
     @Test
     public void inputPointTestLine() {
-        int[] pair = {3,4,6,7,0,0,0,0};
+        int[] pair = {3, 4, 6, 7, 0, 0, 0, 0};
         line.makePoint(pair);
 
         assertAll(
@@ -182,7 +182,7 @@ public class CoordinateTest {
     @DisplayName("사각형을 이루는 좌표 입력값을 넣었을 때 원하는 좌표 값이 제대로 반환되는지 확인한다.")
     @Test
     public void inputPointTestQuad() {
-        int[] pair = {3,4,5,4,3,7,5,7};
+        int[] pair = {3, 4, 5, 4, 3, 7, 5, 7};
         quadrangle.makePoint(pair);
 
         assertAll(
@@ -199,7 +199,7 @@ public class CoordinateTest {
     public void duplicationTest() {
         String expected = "         *";
 
-        int[] pair = {6,7,6,7,0,0,0,0};
+        int[] pair = {6, 7, 6, 7, 0, 0, 0, 0};
         line.makePoint(pair);
         String result = ResultView.analyzePoint(line, MAX, MAX - 7).toString();
 
@@ -211,7 +211,7 @@ public class CoordinateTest {
     public void equalYTest() {
         String expected = "*        *";
 
-        int[] pair = {1,7,6,7,0,0,0,0};
+        int[] pair = {1, 7, 6, 7, 0, 0, 0, 0};
         line.makePoint(pair);
         String result = ResultView.analyzePoint(line, MAX, MAX - 7).toString();
 
@@ -223,7 +223,7 @@ public class CoordinateTest {
     public void lengthTestLine() {
         int expected = 2;
 
-        int[] pair = {1,7,6,7,0,0,0,0};
+        int[] pair = {1, 7, 6, 7, 0, 0, 0, 0};
         line.makePoint(pair);
         int result = line.pointLength();
 
@@ -235,7 +235,7 @@ public class CoordinateTest {
     public void lengthTestQuad() {
         int expected = 4;
 
-        int[] pair = {1,7,6,7,1,10,6,10};
+        int[] pair = {1, 7, 6, 7, 1, 10, 6, 10};
         quadrangle.makePoint(pair);
         int result = quadrangle.pointLength();
 
@@ -247,7 +247,7 @@ public class CoordinateTest {
     public void QuadrangleWidthTest() {
         String expected = "*        *";
 
-        int[] pair = {1,7,6,7,1,16,6,16};
+        int[] pair = {1, 7, 6, 7, 1, 16, 6, 16};
         line.makePoint(pair);
         String result = ResultView.analyzePoint(line, MAX, MAX - 7).toString();
 
