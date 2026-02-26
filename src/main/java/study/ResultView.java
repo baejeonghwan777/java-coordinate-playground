@@ -5,7 +5,7 @@ public class ResultView {
         StringBuilder output = new StringBuilder();
         output.append(printPlainTop(max, coordinates));
         output.append(printPlainBottom());
-        output.append(printDistance(coordinates));
+        output.append(printResult(coordinates));
         return output.toString();
     }
 
@@ -63,10 +63,26 @@ public class ResultView {
 
     public static StringBuilder analyzePoint(Coordinates coordinates, int max, int index) {
         StringBuilder output = new StringBuilder();
-        if(coordinates.equalCoordinate()) if(coordinates.getValue("firstY") == max - index) return output.append(printPoint(coordinates, "firstX"));
-        if(coordinates.equalCoordinateY()) return output.append(printEqualPointDecide(coordinates, max, index));
+        if(coordinates.pointLength() == 2) output.append(analyzePointLine((Line) coordinates, max, index));
+        if(coordinates.pointLength() == 4) output.append(analyzePointQuad(coordinates, max, index));
+        return output;
+    }
+
+    public static StringBuilder analyzePointLine(Line coordinates, int max, int index) {
+        StringBuilder output = new StringBuilder();
+        if(coordinates.equalPoint()) if(coordinates.getValue("firstY") == max - index) return output.append(printPoint(coordinates, "firstX"));
+        if(coordinates.equalPointY()) return output.append(printEqualPointDecide(coordinates, max, index));
         if(coordinates.getValue("firstY") == max - index) output.append(printPoint(coordinates, "firstX"));
         if(coordinates.getValue("secondY") == max - index) output.append(printPoint(coordinates, "secondX"));
+        return output;
+    }
+
+    public static StringBuilder analyzePointQuad(Coordinates coordinates, int max, int index) {
+        StringBuilder output = new StringBuilder();
+        if(coordinates.getValue("maxY") == max - index || coordinates.getValue("minY") == max - index) {
+            output.append(printPoint(coordinates, "minX"));
+            output.append(printEqualPoint(coordinates, "maxX", "minX"));
+        }
         return output;
     }
 
@@ -77,11 +93,11 @@ public class ResultView {
         return output;
     }
 
-    public static StringBuilder printDistance(Coordinates coordinates) {
+    public static StringBuilder printResult(Coordinates coordinates) {
         StringBuilder output = new StringBuilder();
-        output.append("두 점 사이의 거리는 ").append(coordinates.makeDistance()).append("입니다.\n");
+        if(coordinates.pointLength() == 2) output.append("두 점 사이의 거리는 ");
+        if(coordinates.pointLength() == 4) output.append("사각형의 넓이는 ");
+        output.append(coordinates.makeResult()).append("입니다.\n");
         return output;
     }
-
-
 }
