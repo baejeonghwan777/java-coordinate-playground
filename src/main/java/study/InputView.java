@@ -11,6 +11,7 @@ public class InputView {
         System.out.println("좌표를 입력하세요.");
         String input = scanner.nextLine();
         while (!parseCoordinate(input, pair)) {
+            pair = new int[8];
             System.out.println("좌표를 다시 입력하세요.");
             input = scanner.nextLine();
         }
