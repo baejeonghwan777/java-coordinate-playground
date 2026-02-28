@@ -1,77 +1,60 @@
 package study;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class InputView {
+    private static final String POINT = "\\(\\d+,\\d+\\)";
+    private static final Pattern FORM_PATTERN = Pattern.compile(
+            String.format("^(%s)-(%s)(-(%s)-(%s))?$", POINT, POINT, POINT, POINT)
+    );
+    private static final Pattern PATTERN_NUMBER = Pattern.compile("\\d+");
     static Scanner scanner = new Scanner(System.in);
 
-    public static int[] inputCoordinate() {
-        int[] pair = new int[8];
+    public static List<Integer> inputPoint() {
+        List<Integer> pair = new ArrayList<>();
         System.out.println("좌표를 입력하세요.");
         String input = scanner.nextLine();
-        while (!parseCoordinate(input, pair)) {
-            pair = new int[8];
+        while (!parsePoint(input, pair)) {
+            pair = new ArrayList<>();
             System.out.println("좌표를 다시 입력하세요.");
             input = scanner.nextLine();
         }
         return pair;
     }
 
-    public static boolean parseCoordinate(String input, int[] output) { // 코디네이트 객체 생성 예정
-        String regexQuad = "^\\(\\d+,\\d+\\)-\\(\\d+,\\d+\\)-\\(\\d+,\\d+\\)-\\(\\d+,\\d+\\)$";
-        String regexLine = "^\\(\\d+,\\d+\\)-\\(\\d+,\\d+\\)$";
-        if (!Pattern.matches(regexQuad, input) && !Pattern.matches(regexLine, input)) return false;
-        String[] pairString = input.split("[-,()]+");
-        return validCoordinate(pairString, output);
+    public static boolean parsePoint(String input, List<Integer> output) { // 코디네이트 객체 생성 예정
+        if (input == null || !FORM_PATTERN.matcher(input).matches()) return false;
+        Matcher m = PATTERN_NUMBER.matcher(input);
+        while (m.find()) output.add(Integer.parseInt(m.group()));
+        return validPoint(output);
     }
 
-    public static boolean validCoordinate(String[] input, int[] output) {
-        if (validCoordinateLine(input, output)) return true;
-        if (validCoordinateQuad(input, output)) return true;
-        return false;
-    }
-
-    public static boolean validCoordinateLine(String[] input, int[] output) {
-        if (input.length == 5) {
-            for (int i = 0; i < 4; i++) {
-                output[i] = Integer.parseInt(input[i + 1]);
-                if (output[i] <= 0 || output[i] > 24) return false;
+    public static boolean validPoint(List<Integer> output) {
+        if (output.size() == 4 || output.size() == 8) {
+            for (Integer i : output) {
+                if (i <= 0 || i > 24) return false;
             }
-            return true;
+            return checkPoint(output);
         }
         return false;
     }
 
-    public static boolean validCoordinateQuad(String[] input, int[] output) {
-        if (input.length == 9) {
-            for (int i = 0; i < 8; i++) {
-                output[i] = Integer.parseInt(input[i + 1]);
-                if (output[i] <= 0 || output[i] > 24) return false;
-            }
-            return (checkCoordinateQuad(output) && equalQuad(output));
-        }
-        return false;
-    }
+    public static boolean checkPoint(List<Integer> output) {
+        if (output.size() == 4) return true;
 
-    public static boolean checkCoordinateQuad(int[] output) {
-        double averageX = (double) (output[0] + output[2] + output[4] + output[6]) / 4; // x좌표 평균값
-        double averageY = (double) (output[1] + output[3] + output[5] + output[7]) / 4; // y좌표 평균값
-        double expectedX = Math.abs(output[0] - averageX);
-        double expectedY = Math.abs(output[1] - averageY);
-        for (int i = 2; i < 8; i += 2) {
-            if (expectedX != Math.abs(output[i] - averageX)) return false; // 중심 x좌표, y좌표와 평균값이 같은지 비교
-            if (expectedY != Math.abs(output[i + 1] - averageY)) return false;
-        }
-        return true;
-    }
+        Set<Integer> xSet = new HashSet<>();
+        Set<Integer> ySet = new HashSet<>();
 
-    public static boolean equalQuad(int[] output) {
-        for (int i = 0; i < 8; i += 2) { // 바로 뒤에 있는 점과 좌표가 일치하는지 비교
-            for (int j = i + 2; j < 8; j += 2) {
-                if (output[i] == output[j] && output[i + 1] == output[j + 1]) return false;
-            }
+        for (int i = 0; i < output.size(); i += 2) {
+            xSet.add(output.get(i));
+            ySet.add(output.get(i + 1));
         }
-        return true;
+        return xSet.size() == 2 && ySet.size() == 2;
     }
 }

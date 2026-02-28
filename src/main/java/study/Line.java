@@ -1,5 +1,9 @@
 package study;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class Line implements Coordinates {
     private static final int FIRST = 0;
     private static final int SECOND = 1;
@@ -14,14 +18,9 @@ public class Line implements Coordinates {
     }
 
     @Override
-    public void makePoint(int[] pair) {
-        points[FIRST] = new Point(pair[X1], pair[Y1]);
-        points[SECOND] = new Point(pair[X2], pair[Y2]);
-    }
-
-    @Override
-    public int pointLength() {
-        return points.length;
+    public void makePoint(List<Integer> pair) {
+        points[FIRST] = new Point(pair, X1, Y1);
+        points[SECOND] = new Point(pair, X2, Y2);
     }
 
     @Override
@@ -34,16 +33,38 @@ public class Line implements Coordinates {
         return points[FIRST].equals(points[SECOND]);
     }
 
-    public boolean equalPointY() {
-        return points[FIRST].getY() == points[SECOND].getY();
+    public int getFirstX() {
+        return points[FIRST].getX();
+    }
+
+    public int getFirstY() {
+        return points[FIRST].getY();
+    }
+
+    public int getSecondX() {
+        return points[SECOND].getX();
+    }
+
+    public int getSecondY() {
+        return points[SECOND].getY();
     }
 
     @Override
-    public int getValue(String value) {
-        if (value.equals("firstX")) return points[FIRST].getX();
-        if (value.equals("firstY")) return points[FIRST].getY();
-        if (value.equals("secondX")) return points[SECOND].getX();
-        if (value.equals("secondY")) return points[SECOND].getY();
-        return -1;
+    public List<Integer> getPointX(int max, int index) {
+        List<Integer> pointX = new ArrayList<>();
+
+        if (getFirstY() == max - index) pointX.add(getFirstX());
+        if (!equalPoint() && getSecondY() == max - index) pointX.add(getSecondX());
+
+        Collections.sort(pointX);
+        return pointX;
+    }
+
+    @Override
+    public StringBuilder printResult() {
+        StringBuilder output = new StringBuilder();
+        output.append("두 점 사이의 거리는 ");
+        output.append(makeResult()).append("입니다.\n");
+        return output;
     }
 }

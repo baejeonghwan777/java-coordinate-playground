@@ -1,11 +1,13 @@
 package study;
 
+import java.util.List;
+
 public interface Coordinates {
-    int getValue(String value);
-
-    void makePoint(int[] pair);
-
-    int pointLength();
+    void makePoint(List<Integer> pair);
 
     double makeResult();
+
+    StringBuilder printResult();
+
+    List<Integer> getPointX(int max, int index);
 }
