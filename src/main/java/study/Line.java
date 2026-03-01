@@ -23,6 +23,11 @@ public class Line implements Coordinates {
         points[SECOND] = new Point(pair, X2, Y2);
     }
 
+    public void makePoint(Point pointLeft, Point pointRight) {
+        points[FIRST] = pointLeft;
+        points[SECOND] = pointRight;
+    }
+
     @Override
     public double makeResult() {
         return (Math.sqrt(Math.pow(points[FIRST].getX() - points[SECOND].getX(), 2) +
@@ -33,28 +38,20 @@ public class Line implements Coordinates {
         return points[FIRST].equals(points[SECOND]);
     }
 
-    public int getFirstX() {
-        return points[FIRST].getX();
+    public int getValueX(int index) {
+        return points[index].getX();
     }
 
-    public int getFirstY() {
-        return points[FIRST].getY();
-    }
-
-    public int getSecondX() {
-        return points[SECOND].getX();
-    }
-
-    public int getSecondY() {
-        return points[SECOND].getY();
+    public int getValueY(int index) {
+        return points[index].getY();
     }
 
     @Override
     public List<Integer> getPointX(int max, int index) {
         List<Integer> pointX = new ArrayList<>();
 
-        if (getFirstY() == max - index) pointX.add(getFirstX());
-        if (!equalPoint() && getSecondY() == max - index) pointX.add(getSecondX());
+        if (getValueY(FIRST) == max - index) pointX.add(getValueX(FIRST));
+        if (!equalPoint() && getValueY(SECOND) == max - index) pointX.add(getValueX(SECOND));
 
         Collections.sort(pointX);
         return pointX;

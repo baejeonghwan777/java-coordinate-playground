@@ -17,15 +17,19 @@ public class CoordinateTest {
     static final int X2 = 2;
     static final int Y2 = 3;
     Quadrangle quadrangle;
+    Triangle triangle;
     Line line;
     Coordinator coordinatorQ;
+    Coordinator coordinatorT;
     Coordinator coordinatorL;
 
     @BeforeEach
     public void setUp() {
         quadrangle = new Quadrangle();
         line = new Line();
+        triangle = new Triangle();
         coordinatorQ = new Coordinator(quadrangle);
+        coordinatorT = new Coordinator(triangle);
         coordinatorL = new Coordinator(line);
     }
 
@@ -41,14 +45,26 @@ public class CoordinateTest {
         assertThat(expected).isEqualTo(result);
     }
 
-    @DisplayName("넓이 계산이 제대로 이루어지는지 확인한다.")
+    @DisplayName("사각형 넓이 계산이 제대로 이루어지는지 확인한다.")
     @Test
-    public void AreaTest() {
+    public void quadAreaTest() {
         int expected = 12;
 
         List<Integer> pair = new ArrayList<>(Arrays.asList(3, 5, 3, 8, 7, 5, 7, 8));
         quadrangle.makePoint(pair);
         int result = (int) quadrangle.makeResult();
+
+        assertThat(expected).isEqualTo(result);
+    }
+
+    @DisplayName("삼각형 넓이 계산이 제대로 이루어지는지 확인한다.")
+    @Test
+    public void triAreaTest() {
+        int expected = 10;
+
+        List<Integer> pair = new ArrayList<>(Arrays.asList(3, 5, 3, 9, 8, 9));
+        triangle.makePoint(pair);
+        int result = (int) triangle.makeResult();
 
         assertThat(expected).isEqualTo(result);
     }
@@ -101,6 +117,18 @@ public class CoordinateTest {
         assertThat(expected).isEqualTo(result);
     }
 
+    @DisplayName("삼각형을을 이루는 좌표를 숫자를 형식에 맞지 않게 입력했을 때 잘못된 입력으로 간주하는지 확인한다.")
+    @Test
+    public void parseTestInValidTri() {
+        boolean expected = false;
+
+        List<Integer> pair = new ArrayList<>();
+        String input = ")3-3(,)6-3(,)6-6(";
+        boolean result = InputView.parsePoint(input, pair);
+
+        assertThat(expected).isEqualTo(result);
+    }
+
     @DisplayName("사각형을을 이루는 좌표를 숫자를 형식에 맞지 않게 입력했을 때 잘못된 입력으로 간주하는지 확인한다.")
     @Test
     public void parseTestInValidQuad() {
@@ -127,6 +155,18 @@ public class CoordinateTest {
 
     @DisplayName("사각형을 이루는 좌표를 숫자를 범위 바깥으로 입력했을 때 잘못된 입력으로 간주하는지 확인한다.")
     @Test
+    public void parseTestOutOfBoundTri() {
+        boolean expected = false;
+
+        List<Integer> pair = new ArrayList<>();
+        String input = "(25,26)-(200,26)-(25,200)";
+        boolean result = InputView.parsePoint(input, pair);
+
+        assertThat(expected).isEqualTo(result);
+    }
+
+    @DisplayName("사각형을 이루는 좌표를 숫자를 범위 바깥으로 입력했을 때 잘못된 입력으로 간주하는지 확인한다.")
+    @Test
     public void parseTestOutOfBoundQuad() {
         boolean expected = false;
 
@@ -146,6 +186,17 @@ public class CoordinateTest {
         Point coordinate1 = new Point(pair, X1, Y1);
         Point coordinate2 = new Point(pair, X2, Y2);
         boolean result = coordinate1.equals(coordinate2);
+
+        assertThat(expected).isEqualTo(result);
+    }
+
+    @DisplayName("삼각형을 이루는 좌표 중 세 좌표가 일직선을 이룰 때 잘못되었음을 출력하는지 확인한다.")
+    @Test
+    public void oneLineCoordinateTest() {
+        boolean expected = false;
+
+        List<Integer> pair = new ArrayList<>(Arrays.asList(1, 6, 5, 6, 8, 6));
+        boolean result = InputView.checkPoint(pair);
 
         assertThat(expected).isEqualTo(result);
     }
@@ -196,6 +247,18 @@ public class CoordinateTest {
         assertThat(expected).isEqualTo(result);
     }
 
+    @DisplayName("삼각형의 길이를 이루는 두 점이 제대로 출력되는지 확인한다.")
+    @Test
+    public void TriangleWidthTest() {
+        String expected = "*        *";
+
+        List<Integer> pair = new ArrayList<>(Arrays.asList(1, 7, 6, 7, 1, 15));
+        line.makePoint(pair);
+        String result = ResultView.organizePoint(line, MAX, MAX - 7).toString();
+
+        assertThat(expected).isEqualTo(result);
+    }
+
     @DisplayName("사각형의 길이를 이루는 두 점이 제대로 출력되는지 확인한다.")
     @Test
     public void QuadrangleWidthTest() {
@@ -207,5 +270,4 @@ public class CoordinateTest {
 
         assertThat(expected).isEqualTo(result);
     }
-
 }

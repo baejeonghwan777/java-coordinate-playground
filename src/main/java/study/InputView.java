@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public class InputView {
     private static final String POINT = "\\(\\d+,\\d+\\)";
     private static final Pattern FORM_PATTERN = Pattern.compile(
-            String.format("^(%s)-(%s)(-(%s)-(%s))?$", POINT, POINT, POINT, POINT)
+            String.format("^(%s)-(%s)(-(%s)){0,2}$", POINT, POINT, POINT)
     );
     private static final Pattern PATTERN_NUMBER = Pattern.compile("\\d+");
     static Scanner scanner = new Scanner(System.in);
@@ -36,7 +36,7 @@ public class InputView {
     }
 
     public static boolean validPoint(List<Integer> output) {
-        if (output.size() == 4 || output.size() == 8) {
+        if (output.size() == 4 || output.size() == 6 || output.size() == 8) {
             for (Integer i : output) {
                 if (i <= 0 || i > 24) return false;
             }
@@ -55,6 +55,9 @@ public class InputView {
             xSet.add(output.get(i));
             ySet.add(output.get(i + 1));
         }
-        return xSet.size() == 2 && ySet.size() == 2;
+
+        if (output.size() == 6) return !(xSet.size() == 1 || ySet.size() == 1);
+        if (output.size() == 8) return xSet.size() == 2 && ySet.size() == 2;
+        return false;
     }
 }

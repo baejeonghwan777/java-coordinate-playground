@@ -21,6 +21,7 @@ public class Coordinator {
 
     public void make(List<Integer> pair) {
         if (pair.size() == 4) coordinates = new Line();
+        if (pair.size() == 6) coordinates = new Triangle();
         if (pair.size() == 8) coordinates = new Quadrangle();
         coordinates.makePoint(pair);
     }
