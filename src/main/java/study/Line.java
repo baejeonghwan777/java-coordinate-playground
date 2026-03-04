@@ -18,9 +18,9 @@ public class Line implements Coordinates {
     }
 
     @Override
-    public void makePoint(List<Integer> pair) {
-        points[FIRST] = new Point(pair, X1, Y1);
-        points[SECOND] = new Point(pair, X2, Y2);
+    public void makePoint(Output output) {
+        points[FIRST] = new Point(output, X1, Y1);
+        points[SECOND] = new Point(output, X2, Y2);
     }
 
     public void makePoint(Point pointLeft, Point pointRight) {

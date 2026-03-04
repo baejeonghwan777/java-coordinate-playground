@@ -19,9 +19,9 @@ public class Triangle implements Coordinates {
     }
 
     @Override
-    public void makePoint(List<Integer> pair) {
+    public void makePoint(Output output) {
         for (int i = 0; i < POINT_INT_LENGTH; i += 2) {
-            points[i / 2] = new Point(pair, i, i + 1);
+            points[i / 2] = new Point(output, i, i + 1);
         }
         for (int i = 0; i < LENGTH; i++) {
             lines[i] = new Line();

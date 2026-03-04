@@ -3,7 +3,7 @@ package study;
 import java.util.List;
 
 public interface Coordinates {
-    void makePoint(List<Integer> pair);
+    void makePoint(Output output);
 
     double makeResult();
 
