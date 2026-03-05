@@ -7,6 +7,11 @@ import java.util.function.Supplier;
 public class Coordinator {
     private static final int MAX = 24;
     private Coordinates coordinates;
+    private final Map<Predicate<Output>, Supplier<Coordinates>> factory = Map.of( // 조건에 따른 사이즈 판별
+            Output::isValidLineSize, Line::new,
+            Output::isValidTriSize, Triangle::new,
+            Output::isValidQuadSize, Quadrangle::new
+    );
 
     public Coordinator() {
 
@@ -21,12 +26,6 @@ public class Coordinator {
         make(output);
         ResultView.printTotal(MAX, coordinates);
     }
-
-    private final Map<Predicate<Output>, Supplier<Coordinates>> factory = Map.of( // 조건에 따른 사이즈 판별
-            Output::isValidLineSize, Line::new,
-            Output::isValidTriSize, Triangle::new,
-            Output::isValidQuadSize, Quadrangle::new
-    );
 
     public void make(Output output) { // Map을 조회하여 키값을 훑어 생성할 객체를 정한 후 벨류값을 가져와 실제 객체 생성
         coordinates = factory.entrySet().stream()
