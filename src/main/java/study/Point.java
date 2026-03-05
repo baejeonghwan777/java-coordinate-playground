@@ -1,15 +1,14 @@
 package study;
 
-import java.util.List;
 import java.util.Objects;
 
 public class Point {
     private final int x;
     private final int y;
 
-    public Point(List<Integer> pair, int x, int y) {
-        this.x = pair.get(x);
-        this.y = pair.get(y);
+    public Point(Output output, int x, int y) {
+        this.x = output.getValue(x);
+        this.y = output.getValue(y);
     }
 
     public int getX() {

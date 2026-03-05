@@ -12,9 +12,9 @@ public class Quadrangle implements Coordinates {
         this.points = new Point[POINT_LENGTH];
     }
 
-    public void makePoint(List<Integer> pair) {
+    public void makePoint(Output output) {
         for (int i = 0; i < POINT_INT_LENGTH; i += 2) {
-            points[i / 2] = new Point(pair, i, i + 1);
+            points[i / 2] = new Point(output, i, i + 1);
         }
     }
 
